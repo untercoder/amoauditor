@@ -18,14 +18,14 @@ class InitCommand extends Command
                 throw new Exception($this->getMessage('work-dir-created'));
             }
             if (!file_exists($this->pathMap->getZipPath())) {
-                $zip = mkdir($this->pathMap->getZipPath(), 777);
+                $zip = mkdir($this->pathMap->getZipPath(), );
             }
             if (!file_exists($this->pathMap->getWidgetPath())) {
-                $widget = mkdir($this->pathMap->getWidgetPath(), 777);
+                $widget = mkdir($this->pathMap->getWidgetPath(), );
             }
 
             if (!file_exists($this->pathMap->getReportPath())) {
-                $report = mkdir($this->pathMap->getReportPath(), 777);
+                $report = mkdir($this->pathMap->getReportPath(), );
                 copy($this->pathMap->getResViewPath() . DIRECTORY_SEPARATOR . 'index_report.php', $this->pathMap->getReportPath() . DIRECTORY_SEPARATOR . 'index.php');
             }
 
