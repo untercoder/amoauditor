@@ -12,8 +12,6 @@ class HelpCommand extends Command
 {
 
     private array $commandsList;
-    private ResProviderClass $resObj;
-
     /**
      * HelpCommand constructor.
      * @param PathProvaider $pathMap
@@ -21,7 +19,6 @@ class HelpCommand extends Command
      */
     public function __construct(PathProvaider $pathMap, array $commands)
     {
-        $this->resObj = new ResProviderClass($pathMap);
         $this->commandsList = $commands;
         parent::__construct($pathMap);
     }
@@ -31,8 +28,7 @@ class HelpCommand extends Command
     {
         Console::indent(0)->color('light_green')->write("Amoauditor v 0.0")->enter();
         Console::indent(0)->writeln('');
-        $message = $this->resObj->getMessages(get_class($this));
-        Console::indent(0)->color('yellow')->write($message['server-off'])->enter();
+        Console::indent(0)->color('yellow')->write($this->getMessage('server-off'))->enter();
         Console::indent(0)->writeln('');
         Console::indent(1)->color('white')->write("Commands: ")->enter();
         foreach ($this->commandsList as $commandName => $commandDescription) {

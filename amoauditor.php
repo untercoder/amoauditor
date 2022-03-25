@@ -14,7 +14,6 @@ class Starter
     public function __construct(array $argv)
     {
         $corePath = __DIR__;
-
         $this->command = $this->listener($argv, new CommandFactory(new PathProvaider($corePath)));
         $this->command->work();
     }

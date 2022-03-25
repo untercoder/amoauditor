@@ -3,7 +3,8 @@
     "autoload": {
         "psr-4": {
             "Nosekpt\\Amoauditor\\App\\Core\\": "src/app/core",
-            "Nosekpt\\Amoauditor\\App\\Helpers\\": "src/app/helpers"
+            "Nosekpt\\Amoauditor\\App\\Helpers\\": "src/app/helpers",
+            "Nosekpt\\Amoauditor\\App\\Logic\\": "src/app/logic"
         }
     },
     "authors": [
@@ -13,6 +14,7 @@
     ],
     "require": {
         "shasoft/console": "^1.0",
-      "ext-curl": "*"
+      "ext-curl": "*",
+        "ext-zip": "*"
     }
 }

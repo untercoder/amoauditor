@@ -9,5 +9,11 @@ return [
     'Nosekpt\Amoauditor\App\Core\Commands\InitCommand' => [
         'work-dir-created' => "Рабочии директории уже созданы",
         'work-dir-success' => "Все прошло успешно. Рабочии директории созданы!"
+    ],
+    'Nosekpt\Amoauditor\App\Core\Commands\StartCommand' => [
+        'comment-ctrlc' => "Для прекращения работы Ctrl + C:",
+        'comment-widget' => "Жду архив с виджетом:",
+        'err-server-off' => "Не поднят локальный сервер: выполни: php -S localhost:80 /report",
+        'err-work-dir' => "Отсутствуют рабочии директории: выполни php amoauditor.php init",
     ]
 ];

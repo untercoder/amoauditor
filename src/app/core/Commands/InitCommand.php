@@ -10,21 +10,12 @@ use Nosekpt\Amoauditor\App\Core\ResProviderClass;
 
 class InitCommand extends Command
 {
-    private ResProviderClass $resObj;
-
-    public function __construct(PathProvaider $pathMap)
-    {
-        $this->resObj = new ResProviderClass($pathMap);
-        parent::__construct($pathMap);
-    }
-
     public function work(): void
     {
-        $message = $this->resObj->getMessages(get_class($this));
         try {
             if (file_exists($this->pathMap->getZipPath()) and file_exists($this->pathMap->getWidgetPath()) and
                 file_exists($this->pathMap->getReportPath())) {
-                throw new Exception($message['work-dir-created']);
+                throw new Exception($this->getMessage('work-dir-created'));
             }
             if (!file_exists($this->pathMap->getZipPath())) {
                 $zip = mkdir($this->pathMap->getZipPath(), 777);
@@ -40,7 +31,7 @@ class InitCommand extends Command
 
             if ($zip and $widget and $report) {
                 ConsoleSay::successConsole([
-                    'body' => $message['work-dir-success']
+                    'body' => $this->getMessage('work-dir-success')
                 ]);
             }
         } catch (Exception $exception) {

@@ -17,10 +17,10 @@ class  ConsoleSay
 
     public static function successConsole(array $message) {
         if(isset($message['header'])) {
-            Console::indent(0)->color('light_red')->write($message['header'])->enter();
+            Console::indent(0)->color('yellow')->write($message['header'])->enter();
             Console::indent(1)->writeln('');
         }
-        Console::indent(0)->color('green')->write($message['body'])->enter();
+        Console::indent(0)->color('light_green')->write($message['body'])->enter();
         Console::indent(0)->writeln('');
     }
 
