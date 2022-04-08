@@ -16,17 +16,12 @@ class StartCommand extends Command
     {
         try {
             if ($this->initExist()) {
-                if ($this->serverExist()) {
-                    ConsoleSay::commentConsole(['body' => $this->getMessage('comment-ctrlc')]);
-                    ConsoleSay::successConsole(['body' => $this->getMessage('comment-widget')]);
-                    while (true) {
-                        $this->start();
-                        sleep(1);
-                    }
-                } else {
-                    throw new Exception($this->getMessage('err-server-off'));
+                ConsoleSay::commentConsole(['body' => $this->getMessage('comment-ctrlc')]);
+                ConsoleSay::successConsole(['body' => $this->getMessage('comment-widget')]);
+                while (true) {
+                    $this->start();
+                    sleep(1);
                 }
-
             } else {
                 throw new Exception($this->getMessage('err-work-dir'));
             }
@@ -37,7 +32,8 @@ class StartCommand extends Command
 
     }
 
-    private function start() {
+    private function start()
+    {
         $widget = WidgetController::Observer($this->pathMap);
         if (isset($widget)) {
             $widget->clearWorkSpace($this->pathMap->getWidgetPath());
@@ -48,24 +44,11 @@ class StartCommand extends Command
 
     private function initExist()
     {
-        if (file_exists($this->pathMap->getZipPath()) and file_exists($this->pathMap->getZipPath())) {
+        if (file_exists($this->pathMap->getZipPath()) and file_exists($this->pathMap->getWidgetPath())) {
             return true;
         } else {
             return false;
         }
     }
 
-    private function serverExist(): bool
-    {
-        $ch = curl_init('http://localhost:1010/');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_exec($ch);
-        $http_code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-        curl_close($ch);
-        if ($http_code === 200) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }

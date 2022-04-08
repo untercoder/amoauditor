@@ -24,12 +24,7 @@ class InitCommand extends Command
                 $widget = mkdir($this->pathMap->getWidgetPath(), );
             }
 
-            if (!file_exists($this->pathMap->getReportPath())) {
-                $report = mkdir($this->pathMap->getReportPath(), );
-                copy($this->pathMap->getResViewPath() . DIRECTORY_SEPARATOR . 'index_report.php', $this->pathMap->getReportPath() . DIRECTORY_SEPARATOR . 'index.php');
-            }
-
-            if ($zip and $widget and $report) {
+            if ($zip and $widget) {
                 ConsoleSay::successConsole([
                     'body' => $this->getMessage('work-dir-success')
                 ]);
