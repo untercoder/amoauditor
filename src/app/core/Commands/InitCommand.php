@@ -1,6 +1,4 @@
 <?php
-
-
 namespace Nosekpt\Amoauditor\App\Core\Commands;
 
 use Exception;

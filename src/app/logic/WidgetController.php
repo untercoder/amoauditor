@@ -11,7 +11,7 @@ class WidgetController
 {
     private string $widgetZipPath;
     private ZipArchive $zipManager;
-
+    private string $pathWidgetZip;
     /**
      * WidgetController constructor.
      * @param string $widgetZip
@@ -24,12 +24,13 @@ class WidgetController
 
     public static function Observer(PathProvaider $path): ?WidgetController
     {
-        $pathWidgetZip = $path->getZipPath() . DIRECTORY_SEPARATOR . 'widget.zip';
-        if (file_exists($pathWidgetZip)) {
-            return new WidgetController($pathWidgetZip);
-        } else {
-            return null;
+        $fileNameArray = glob($path->getZipPath().DIRECTORY_SEPARATOR.'*.zip');
+        if(!empty($fileNameArray)) {
+            if (file_exists($fileNameArray[0])) {
+                return new WidgetController($fileNameArray[0]);
+            }
         }
+        return null;
     }
 
     /**
