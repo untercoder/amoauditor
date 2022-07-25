@@ -9,13 +9,13 @@ use Nosekpt\Amoauditor\App\Core\PathProvaider;
 use Nosekpt\Amoauditor\App\Helpers\ConsoleSay;
 use Nosekpt\Amoauditor\App\Logic\Searcher;
 use Nosekpt\Amoauditor\App\Logic\WorkService;
-use Nosekpt\Amoauditor\App\Helpers\Writer;
 
 
 class StartCommand extends Command
 {
     private array $searchList;
     private Searcher $searcher;
+
     public function __construct(PathProvaider $pathMap)
     {
         parent::__construct($pathMap);
@@ -51,22 +51,34 @@ class StartCommand extends Command
             $widget->clearWorkSpace($this->pathMap->getWidgetPath());
             ConsoleSay::successConsole(['body' => $widget->getWidgetZipPath()]);
             $widget->extract($this->pathMap->getWidgetPath());
-            $allJsFiles = $this->searcher->searchJsFiles();
-            foreach ($allJsFiles as $jsFile) {
-                ConsoleSay::successConsole(["body"=>"Поиск в ".$jsFile]);
-                foreach ($this->searchList as $searchParam => $description) {
-                    ConsoleSay::commentConsole(['body' => $description]);
-                    $searchResult = $this->searcher->search($searchParam, $jsFile);
-                    print_r($searchResult);
-                }
-            }
+
+            //print_r(json_encode($this->audit(), JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
         }
     }
 
-    private function initExist()
+    private function audit() : array
     {
-        if (file_exists($this->pathMap->getZipPath()) and file_exists($this->pathMap->getWidgetPath())
-            and file_exists($this->pathMap->getReportPath())) {
+        $auditListing = [];
+        $auditListingInJsFile = [];
+        $allJsFiles = $this->searcher->searchJsFiles();
+        foreach ($allJsFiles as $jsFile) {
+            ConsoleSay::successConsole(["body" => "Поиск в " . $jsFile]);
+            foreach ($this->searchList as $searchParam => $description) {
+                ConsoleSay::commentConsole(['body' => $description]);
+                $searchResult = $this->searcher->search($searchParam, $jsFile);
+                print_r($searchResult);
+                $auditListingInJsFile[] = ['description' => $description, 'searchResult' => $searchResult];
+            }
+            $auditListing[$jsFile] = $auditListingInJsFile;
+            $auditListingInJsFile = [];
+        }
+        return $auditListing;
+    }
+
+
+    private function initExist() : bool
+    {
+        if (file_exists($this->pathMap->getZipPath()) and file_exists($this->pathMap->getWidgetPath())) {
             return true;
         } else {
             return false;

@@ -15,6 +15,7 @@
     "require": {
         "shasoft/console": "^1.0",
       "ext-curl": "*",
-        "ext-zip": "*"
+        "ext-zip": "*",
+        "ext-json": "*"
     }
 }
