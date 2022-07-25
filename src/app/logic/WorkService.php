@@ -7,13 +7,13 @@ use Nosekpt\Amoauditor\App\Core\PathProvaider;
 use Nosekpt\Amoauditor\App\Helpers\ConsoleSay;
 use ZipArchive;
 
-class WidgetController
+class WorkService
 {
     private string $widgetZipPath;
     private ZipArchive $zipManager;
     private string $pathWidgetZip;
     /**
-     * WidgetController constructor.
+     * WorkService constructor.
      * @param string $widgetZip
      */
     public function __construct(string $widgetZip)
@@ -22,12 +22,12 @@ class WidgetController
         $this->widgetZipPath = $widgetZip;
     }
 
-    public static function Observer(PathProvaider $path): ?WidgetController
+    public static function Observer(PathProvaider $path): ?WorkService
     {
         $fileNameArray = glob($path->getZipPath().DIRECTORY_SEPARATOR.'*.zip');
         if(!empty($fileNameArray)) {
             if (file_exists($fileNameArray[0])) {
-                return new WidgetController($fileNameArray[0]);
+                return new WorkService($fileNameArray[0]);
             }
         }
         return null;

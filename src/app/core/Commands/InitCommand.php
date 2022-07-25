@@ -16,13 +16,19 @@ class InitCommand extends Command
                 throw new Exception($this->getMessage('work-dir-created'));
             }
             if (!file_exists($this->pathMap->getZipPath())) {
-                $zip = mkdir($this->pathMap->getZipPath(), );
+                $zip = mkdir($this->pathMap->getZipPath());
             }
             if (!file_exists($this->pathMap->getWidgetPath())) {
-                $widget = mkdir($this->pathMap->getWidgetPath(), );
+                $widget = mkdir($this->pathMap->getWidgetPath());
+            }
+            if (!file_exists($this->pathMap->getReportPath())) {
+                $report = mkdir($this->pathMap->getReportPath());
+                fopen($this->pathMap->getReportPath()."report.txt", "Empty report file.");
             }
 
-            if ($zip and $widget) {
+
+
+            if ($zip and $widget and $report) {
                 ConsoleSay::successConsole([
                     'body' => $this->getMessage('work-dir-success')
                 ]);

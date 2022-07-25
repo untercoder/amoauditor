@@ -79,4 +79,8 @@ class ResProviderClass
         return $this->getFromTxtRes('commands');
     }
 
+    public function getSearchList() {
+        return $this->getFromTxtRes('search_list');
+    }
+
 }
