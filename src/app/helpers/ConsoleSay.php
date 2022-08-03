@@ -28,4 +28,11 @@ class  ConsoleSay
         Console::indent(0)->color('yellow')->write($message['body'])->enter();
         Console::indent(0)->writeln('');
     }
+
+    public static function borderConsole( int $auditCount = 0 ) {
+        Console::indent(0)->color('purple')->write("++++++++++++++++++++++++++++++++++++")->enter();
+        Console::indent(0)->color('purple')->write("Сесиия аудита №".$auditCount." Время загрузки виджета: ".date("Y-m-d H:i:s"))->enter();
+        Console::indent(0)->color('purple')->write("++++++++++++++++++++++++++++++++++++")->enter();
+        Console::indent(0)->writeln('');
+    }
 }

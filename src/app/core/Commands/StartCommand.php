@@ -15,12 +15,14 @@ class StartCommand extends Command
 {
     private array $searchList;
     private Searcher $searcher;
+    private int $auditCounter;
 
     public function __construct(PathProvaider $pathMap)
     {
         parent::__construct($pathMap);
         $this->searchList = $this->resObj->getSearchList();
         $this->searcher = new Searcher($pathMap);
+        $this->auditCounter = 0;
     }
 
 
@@ -48,10 +50,11 @@ class StartCommand extends Command
     {
         $widget = WorkService::Observer($this->pathMap);
         if (isset($widget)) {
+            $this->auditCounter += 1;
             $widget->clearWorkSpace($this->pathMap->getWidgetPath());
-            ConsoleSay::successConsole(['body' => $widget->getWidgetZipPath()]);
             $widget->extract($this->pathMap->getWidgetPath());
-
+            ConsoleSay::borderConsole($this->auditCounter);
+            $this->audit();
             //print_r(json_encode($this->audit(), JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
         }
     }
@@ -64,9 +67,11 @@ class StartCommand extends Command
         foreach ($allJsFiles as $jsFile) {
             ConsoleSay::successConsole(["body" => "Поиск в " . $jsFile]);
             foreach ($this->searchList as $searchParam => $description) {
-                ConsoleSay::commentConsole(['body' => $description]);
                 $searchResult = $this->searcher->search($searchParam, $jsFile);
-                print_r($searchResult);
+                if(!empty($searchResult)) {
+                    ConsoleSay::commentConsole(['body' => $description]);
+                    print_r($searchResult);  
+                }
                 $auditListingInJsFile[] = ['description' => $description, 'searchResult' => $searchResult];
             }
             $auditListing[$jsFile] = $auditListingInJsFile;
