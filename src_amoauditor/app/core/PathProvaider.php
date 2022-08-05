@@ -19,7 +19,7 @@ class PathProvaider
      */
     public function __construct(string $corePath)
     {
-        $this->resPath = $corePath.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'res';
+        $this->resPath = $corePath.DIRECTORY_SEPARATOR.'src_amoauditor'.DIRECTORY_SEPARATOR.'res';
         $this->zipPath = $corePath.DIRECTORY_SEPARATOR.'zip';
         $this->widgetPath = $corePath.DIRECTORY_SEPARATOR.'widget';
         $this->reportPath = $corePath.DIRECTORY_SEPARATOR.'report';

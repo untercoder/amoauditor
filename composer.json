@@ -2,9 +2,9 @@
     "name": "nosekpt/amoauditor",
     "autoload": {
         "psr-4": {
-            "Nosekpt\\Amoauditor\\App\\Core\\": "src/app/core",
-            "Nosekpt\\Amoauditor\\App\\Helpers\\": "src/app/helpers",
-            "Nosekpt\\Amoauditor\\App\\Logic\\": "src/app/logic"
+            "Nosekpt\\Amoauditor\\App\\Core\\": "src_amoauditor/app/core",
+            "Nosekpt\\Amoauditor\\App\\Helpers\\": "src_amoauditor/app/helpers",
+            "Nosekpt\\Amoauditor\\App\\Logic\\": "src_amoauditor/app/logic"
         }
     },
     "authors": [
