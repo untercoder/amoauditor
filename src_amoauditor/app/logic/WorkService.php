@@ -22,7 +22,7 @@ class WorkService
         $this->widgetZipPath = $widgetZip;
     }
 
-    public static function Observer(PathProvaider $path): ?WorkService
+    public static function Observer(PathProvaider $path) : ?WorkService
     {
         $fileNameArray = glob($path->getZipPath().DIRECTORY_SEPARATOR.'*.zip');
         if(!empty($fileNameArray)) {
@@ -41,7 +41,7 @@ class WorkService
         return $this->widgetZipPath;
     }
 
-    public function extract(string $toExtract)
+    public function extract(string $toExtract) : void
     {
         try {
             if ($this->zipManager->open($this->widgetZipPath)) {
@@ -56,19 +56,9 @@ class WorkService
         }
     }
 
-    public function clearWorkSpace(string $widgetWorkSpace) {
-        if (file_exists($widgetWorkSpace.DIRECTORY_SEPARATOR)) {
-            foreach (glob($widgetWorkSpace.DIRECTORY_SEPARATOR.'*') as $file) {
-                if(is_dir($file)) {
-                    $this->clearWorkSpace($file);
-                } else {
-                    unlink($file);
-                }
-            }
-            rmdir($widgetWorkSpace);
-        }
+    public function clearWorkSpace(string $widgetWorkSpace) : void {
+        exec("rm -rf ".$widgetWorkSpace);
+        mkdir($widgetWorkSpace);
     }
-
-
 
 }
