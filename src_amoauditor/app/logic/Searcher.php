@@ -7,6 +7,9 @@ use Nosekpt\Amoauditor\App\Helpers\ConsoleSay;
 
 class Searcher
 {
+    private const STRLEN = 150; //длина выводимой строки
+    private const STROFF = 50;  //максимальное расстояние от начала строки до искомого значения
+
     private string $widgetPatch;
     public function __construct(PathProvaider $path)
     {
@@ -19,16 +22,17 @@ class Searcher
 
         //обрезка обусфицированного кода
         for ($i = 0; $i < count($searchResultInJsFile); $i++) {
-            $result = explode($searchResultInJsFile[$i],':', 2);
+            $result = explode(':', $searchResultInJsFile[$i],2);
+            $result[1] = trim($result[1]);
             $position = strpos($result[1], $searchParam);
 
             $result[1] = substr(
                 $result[1],
-                $position > 50 ? $position - 50 : 0,
-                150
+                $position > self::STROFF ? $position - self::STROFF : 0,
+                self::STRLEN
             );
 
-            $searchResultInJsFile[$i] = implode(':          ', $result);
+            $searchResultInJsFile[$i] = implode(":     \t", $result);
         }
 
         return $searchResultInJsFile;
