@@ -25,6 +25,8 @@ class Searcher
             $result = explode(':', $searchResultInJsFile[$i],2);
             $result[1] = trim($result[1]);
             $position = strpos($result[1], $searchParam);
+            $count = substr_count($result[1], $searchParam);
+            $result[0].=' ('.$count.')';
 
             $result[1] = substr(
                 $result[1],
@@ -32,7 +34,7 @@ class Searcher
                 self::STRLEN
             );
 
-            $searchResultInJsFile[$i] = implode(":     \t", $result);
+            $searchResultInJsFile[$i] = implode(": \t\t", $result);
         }
 
         return $searchResultInJsFile;
