@@ -26,13 +26,15 @@ class Searcher
             $searchParam === '$.get' ||
             $searchParam === 'crm_post'
         ){
-            exec('grep -nF --before-context='.self::STRNUM.' --no-group-separator '.$searchParam." ".$jsFilePath, $searchResultInJsFile);
+            exec(
+                'grep -nF --before-context='.self::STRNUM.' --no-group-separator '.
+                $searchParam." ".$jsFilePath, $searchResultInJsFile
+            );
             for ($i = 0; $i < count($searchResultInJsFile); $i++) {
-                if($i % self::STRNUM !== self::STRNUM) {
+                if(($i + 1) % (self::STRNUM + 1) !== 0) {
                     $searchResultInJsFile[$i] = explode('-', $searchResultInJsFile[$i], 2)[1];
-                    $searchResultInJsFile[$i] = "\t\t".trim($searchResultInJsFile[$i]);
                 } else {
-                    $searchResultInJsFile[$i] = trim($searchResultInJsFile[$i])."\n\n\n";
+                    $searchResultInJsFile[$i].="\n\n----------------------------------------------------------------\n";
                 }
             }
             return $searchResultInJsFile;
