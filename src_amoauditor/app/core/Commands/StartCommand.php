@@ -69,8 +69,17 @@ class StartCommand extends Command
             foreach ($this->searchList as $searchParam => $description) {
                 $searchResult = $this->searcher->search($searchParam, $jsFile);
                 if(!empty($searchResult)) {
+                    $param = str_replace('"','', $searchParam);
+                    $param = str_replace('\\', '', $param);
+
                     ConsoleSay::commentConsole(['body' => $description]);
-                    print_r($searchResult);  
+                    foreach ($searchResult as $result) {
+                        ConsoleSay::searchConsole([
+                            'body' => $result,
+                            'param' => $param,
+                        ]);
+                    }
+                    ConsoleSay::newLineConsole();
                 }
                 $auditListingInJsFile[] = ['description' => $description, 'searchResult' => $searchResult];
             }

@@ -32,7 +32,7 @@ class Searcher
 
             // находим количество вхождений искомого выражения
             $count = substr_count($result[1], $param);
-            $result[0].=' ('.$count.')';
+//            $result[0].=' ('.$count.')';
 
             // разбиваем строку на подстроки с одним искомым выражением в центре
             $split = explode($param, $result[1]);
@@ -45,7 +45,7 @@ class Searcher
                     $subposition > self::STROFF ? $subposition - self::STROFF : 0,
                     self::STRLEN
                 );
-                $join.=$substr."\n\t\t\t\t";
+                $join.=$substr."\n\t\t";
             }
             $result[1] = trim($join, " \n\t");
 

@@ -29,6 +29,19 @@ class  ConsoleSay
         Console::indent(0)->writeln('');
     }
 
+    public static function newLineConsole() {
+        Console::indent(0)->writeln('');
+    }
+
+    public static function searchConsole(array $message) {
+        $array = explode($message['param'], $message['body']);
+        for ($i = 0; $i < count($array) - 1; $i++) {
+            Console::indent(0)->color('white')->write($array[$i]);
+            Console::indent(0)->color('light_blue')->write($message['param']);
+        }
+        Console::indent(0)->color('white')->write($array[count($array) - 1])->enter();
+    }
+
     public static function borderConsole( int $auditCount = 0 ) {
         Console::indent(0)->color('purple')->write("++++++++++++++++++++++++++++++++++++")->enter();
         Console::indent(0)->color('purple')->write("Сесиия аудита №".$auditCount." Время загрузки виджета: ".date("Y-m-d H:i:s"))->enter();
