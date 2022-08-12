@@ -36,11 +36,19 @@ class Searcher
             $result[0].=' ('.$count.')';
 
             // обрезаем текст строки в районе первого вхождения искомого выражения
-            $result[1] = substr(
-                $result[1],
-                $position > self::STROFF ? $position - self::STROFF : 0,
-                self::STRLEN
-            );
+            $split = explode($param, $result[1]);
+            $join = '';
+            for ($j = 0; $j < $count; $j++) {
+                $substr = implode($param, [$split[$j], $split[$j+1]]);
+                $subposition = strpos($substr, $param);
+                $substr = substr(
+                    $substr,
+                    $subposition > self::STROFF ? $subposition - self::STROFF : 0,
+                    self::STRLEN
+                );
+                $join.=$substr."\n\t\t\t\t";
+            }
+            $result[1] = trim($join, " \n\t");
 
             // добавляем номер строки и количество вхождений к обрезанной строке
             $searchResultInJsFile[$i] = implode(": \t\t", $result);
