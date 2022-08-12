@@ -30,17 +30,24 @@ class Searcher
             $result = explode(':', $searchResultInJsFile[$i],2);
             $result[1] = trim($result[1]);
 
-            // находим количество вхождений и позицию первого вхождения искомого выражения
-            $position = strpos($result[1], $param);
+            // находим количество вхождений искомого выражения
             $count = substr_count($result[1], $param);
             $result[0].=' ('.$count.')';
 
-            // обрезаем текст строки в районе первого вхождения искомого выражения
-            $result[1] = substr(
-                $result[1],
-                $position > self::STROFF ? $position - self::STROFF : 0,
-                self::STRLEN
-            );
+            // разбиваем строку на подстроки с одним искомым выражением в центре
+            $split = explode($param, $result[1]);
+            $join = '';
+            for ($j = 0; $j < $count; $j++) {
+                $substr = implode($param, [$split[$j], $split[$j+1]]);
+                $subposition = strpos($substr, $param);
+                $substr = substr(
+                    $substr,
+                    $subposition > self::STROFF ? $subposition - self::STROFF : 0,
+                    self::STRLEN
+                );
+                $join.=$substr."\n\t\t\t\t";
+            }
+            $result[1] = trim($join, " \n\t");
 
             // добавляем номер строки и количество вхождений к обрезанной строке
             $searchResultInJsFile[$i] = implode(": \t\t", $result);
