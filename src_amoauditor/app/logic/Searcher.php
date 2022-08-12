@@ -7,6 +7,9 @@ use Nosekpt\Amoauditor\App\Helpers\ConsoleSay;
 
 class Searcher
 {
+    private const STRLEN = 150; //длина выводимой строки
+    private const STROFF = 50;  //максимальное расстояние от начала строки до искомого значения
+
     private string $widgetPatch;
     public function __construct(PathProvaider $path)
     {
@@ -16,6 +19,33 @@ class Searcher
     public function search(string $searchParam, string $jsFilePath): array {
         $searchResultInJsFile = [];
         exec('grep -n '.$searchParam." ".$jsFilePath, $searchResultInJsFile);
+
+        // обрезка обусфицированного (и не только) кода
+        for ($i = 0; $i < count($searchResultInJsFile); $i++) {
+            // вырезаем конструкции регулярных выражений
+            $param = str_replace('"','', $searchParam);
+            $param = str_replace('\\', '', $param);
+
+            // отделяем номер строки от текста строки, тримим текст строки
+            $result = explode(':', $searchResultInJsFile[$i],2);
+            $result[1] = trim($result[1]);
+
+            // находим количество вхождений и позицию первого вхождения искомого выражения
+            $position = strpos($result[1], $param);
+            $count = substr_count($result[1], $param);
+            $result[0].=' ('.$count.')';
+
+            // обрезаем текст строки в районе первого вхождения искомого выражения
+            $result[1] = substr(
+                $result[1],
+                $position > self::STROFF ? $position - self::STROFF : 0,
+                self::STRLEN
+            );
+
+            // добавляем номер строки и количество вхождений к обрезанной строке
+            $searchResultInJsFile[$i] = implode(": \t\t", $result);
+        }
+
         return $searchResultInJsFile;
     }
 
