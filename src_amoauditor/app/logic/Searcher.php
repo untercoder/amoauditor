@@ -7,8 +7,9 @@ use Nosekpt\Amoauditor\App\Helpers\ConsoleSay;
 
 class Searcher
 {
-    private const STRLEN = 150; //длина выводимой строки
-    private const STROFF = 50;  //максимальное расстояние от начала строки до искомого значения
+    private const STRLEN = 150; // длина выводимой строки
+    private const STROFF = 50;  // максимальное расстояние от начала строки до искомого значения
+    private const STRNUM = 5;   // количество строк, выводимых для циклов
 
     private string $widgetPatch;
     public function __construct(PathProvaider $path)
@@ -18,6 +19,27 @@ class Searcher
 
     public function search(string $searchParam, string $jsFilePath): array {
         $searchResultInJsFile = [];
+
+        if(
+            $searchParam === '$.ajax' ||
+            $searchParam === '$.post' ||
+            $searchParam === '$.get' ||
+            $searchParam === 'crm_post'
+        ){
+            exec(
+                'grep -nF --before-context='.self::STRNUM.' --no-group-separator '.
+                $searchParam." ".$jsFilePath, $searchResultInJsFile
+            );
+            for ($i = 0; $i < count($searchResultInJsFile); $i++) {
+                if(($i + 1) % (self::STRNUM + 1) !== 0) {
+                    $searchResultInJsFile[$i] = explode('-', $searchResultInJsFile[$i], 2)[1];
+                } else {
+                    $searchResultInJsFile[$i].="\n\n----------------------------------------------------------------\n";
+                }
+            }
+            return $searchResultInJsFile;
+        }
+
         exec('grep -nF '.$searchParam." ".$jsFilePath, $searchResultInJsFile);
 
         // обрезка обусфицированного (и не только) кода
