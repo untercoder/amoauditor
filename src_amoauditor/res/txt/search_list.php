@@ -12,7 +12,7 @@ return [
     '"$\.get"' => "Запрещено использовать в циклах $.get ",
     'crm_post' => "Запрещено использовать в циклах crm_post",
     '//' => "Не должно быть закомментированного кода, чек возможные cdn",
-    '.switcher' => 'Код виджета не должен опираться на стили switchera (switcher__on, switcher__off) - .switcher' ,
+    '"\.switcher"' => 'Код виджета не должен опираться на стили switchera (switcher__on, switcher__off) - .switcher' ,
     'switcher__on' => 'Код виджета не должен опираться на стили switchera (switcher__on, switcher__off) - switcher__on',
     'switcher__off' => 'Код виджета не должен опираться на стили switchera (switcher__on, switcher__off) - switcher__off',
     '.widget-rating-box__rating-count' => 'Запрещено, присваивается новое значение рейтинга виджета в маркете',
