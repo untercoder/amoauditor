@@ -9,7 +9,7 @@ class Searcher
 {
     private const STRLEN = 150; // длина выводимой строки
     private const STROFF = 50;  // максимальное расстояние от начала строки до искомого значения
-    private const STRNUM = 5;   // количество строк, выводимых для циклов
+    private const STRNUM = 15;   // количество строк, выводимых для циклов
 
     private string $widgetPatch;
     public function __construct(PathProvaider $path)
@@ -35,7 +35,7 @@ class Searcher
                 if ($subposition = strpos($result[1], $searchParam)) {
                     $result[1] = substr(
                         $result[1],
-                        $subposition > self::STROFF ? $subposition - self::STROFF : 0,
+                        $subposition > 2*self::STROFF ? $subposition - 2*self::STROFF : 0,
                         self::STRLEN
                     )."\n\n------------------------------------------------------------\n";
                 } else {
