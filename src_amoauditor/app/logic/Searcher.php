@@ -37,7 +37,7 @@ class Searcher
                         $result[1],
                         $subposition > self::STROFF ? $subposition - self::STROFF : 0,
                         self::STRLEN
-                    );
+                    )."\n\n------------------------------------------------------------\n";
                 } else {
                     $result[1] = substr(
                         $result[1],
