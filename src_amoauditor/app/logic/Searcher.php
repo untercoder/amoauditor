@@ -31,11 +31,20 @@ class Searcher
                 $searchParam." ".$jsFilePath, $searchResultInJsFile
             );
             for ($i = 0; $i < count($searchResultInJsFile); $i++) {
-                if(($i + 1) % (self::STRNUM + 1) !== 0) {
-                    $searchResultInJsFile[$i] = explode('-', $searchResultInJsFile[$i], 2)[1];
+                $result = preg_split("/[:-]/", $searchResultInJsFile[$i], 2);
+                if ($subposition = strpos($result[1], $searchParam)) {
+                    $result[1] = substr(
+                        $result[1],
+                        $subposition > self::STROFF ? $subposition - self::STROFF : 0,
+                        self::STRLEN
+                    );
                 } else {
-                    $searchResultInJsFile[$i].="\n\n----------------------------------------------------------------\n";
+                    $result[1] = substr(
+                        $result[1],
+                        -self::STRLEN
+                    );
                 }
+                $searchResultInJsFile[$i] = implode(": \t\t", $result);
             }
             return $searchResultInJsFile;
         }
