@@ -9,7 +9,7 @@ class Searcher
 {
     private const STRLEN = 150; // длина выводимой строки
     private const STROFF = 50;  // максимальное расстояние от начала строки до искомого значения
-    private const STRNUM = 5;   // количество строк, выводимых для циклов
+    private const STRNUM = 15;   // количество строк, выводимых для циклов
 
     private string $widgetPatch;
     public function __construct(PathProvaider $path)
@@ -31,11 +31,20 @@ class Searcher
                 $searchParam." ".$jsFilePath, $searchResultInJsFile
             );
             for ($i = 0; $i < count($searchResultInJsFile); $i++) {
-                if(($i + 1) % (self::STRNUM + 1) !== 0) {
-                    $searchResultInJsFile[$i] = explode('-', $searchResultInJsFile[$i], 2)[1];
+                $result = preg_split("/[:-]/", $searchResultInJsFile[$i], 2);
+                if ($subposition = strpos($result[1], $searchParam)) {
+                    $result[1] = substr(
+                        $result[1],
+                        $subposition > 2*self::STROFF ? $subposition - 2*self::STROFF : 0,
+                        self::STRLEN
+                    )."\n\n------------------------------------------------------------\n";
                 } else {
-                    $searchResultInJsFile[$i].="\n\n----------------------------------------------------------------\n";
+                    $result[1] = substr(
+                        $result[1],
+                        -self::STRLEN
+                    );
                 }
+                $searchResultInJsFile[$i] = implode(": \t\t", $result);
             }
             return $searchResultInJsFile;
         }
